@@ -41,12 +41,12 @@ export default function DataAgGrid() {
         headerTextColor: "var(--muted-foreground)",
 
         // Borders
-        borderColor: "var(--border)",
+        borderColor: "var(--accent-border)",
 
         // Rows
         rowHoverColor: "var(--muted)",
-        selectedRowBackgroundColor: "var(--primary)",
-
+        selectedRowBackgroundColor: "var(--muted)",
+        
         // Spacing + UI
         spacing: 8,
         headerHeight: 46,
