@@ -18,7 +18,7 @@ function DashboardLayout({ children }: Props) {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 sticky top-0 z-20 backdrop-blur-lg">
+        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 sticky top-0 z-20 bg-white dark:bg-black">
           <div className="flex w-full justify-between items-center px-4">
             <div className="flex items-center gap-2">
               <SidebarTrigger className="-ml-1" />

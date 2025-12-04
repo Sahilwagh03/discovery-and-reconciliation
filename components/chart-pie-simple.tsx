@@ -1,79 +1,96 @@
-"use client"
+"use client";
 
-import { TrendingUp } from "lucide-react"
-import { Pie, PieChart } from "recharts"
-
+import { Pie, PieChart } from "recharts";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+  CardTitle
+} from "@/components/ui/card";
+
 import {
   ChartConfig,
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
   ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart"
+  ChartTooltipContent
+} from "@/components/ui/chart";
+import { useIsMobile } from "@/hooks/use-mobile";
 
-export const description = "A simple pie chart"
+interface ResultType {
+  result: string;
+  count: number;
+}
 
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
-]
+interface CheckType {
+  check_name: string;
+  results: ResultType[];
+}
 
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "var(--chart-1)",
-  },
-  safari: {
-    label: "Safari",
-    color: "var(--chart-2)",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "var(--chart-3)",
-  },
-  edge: {
-    label: "Edge",
-    color: "var(--chart-4)",
-  },
-  other: {
-    label: "Other",
-    color: "var(--chart-5)",
-  },
-} satisfies ChartConfig
+interface ItemType {
+  object_type: string;
+  total_count: number;
+  checks: CheckType[];
+}
 
-export function ChartPieSimple() {
+export default function ChartDiscrepancyPie({ data }: { data: ItemType[] }) {
+
+  const pieData = data.map((item, idx) => {
+    const total = item.checks.reduce((sum, check) => {
+      return (
+        sum +
+        check.results.reduce((s, r) => s + r.count, 0)
+      );
+    }, 0);
+
+    return {
+      name: item.object_type,
+      value: total,
+      fill: `var(--chart-${idx + 1})`,
+    };
+  });
+
+  const chartConfig: ChartConfig = data.reduce(
+    (acc: any, item, idx) => {
+      acc[item.object_type] = {
+        label: item.object_type,
+        color: `var(--chart-${idx + 1})`,
+      };
+      return acc;
+    },
+    {}
+  );
+
+  const isMobile  = useIsMobile()
+
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Object-wise Discrepancy Distribution</CardTitle>
+        <CardDescription>Total mismatches summarized by object</CardDescription>
       </CardHeader>
+
       <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={chartConfig}
-        >
+        <ChartContainer config={chartConfig}>
           <PieChart>
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={<ChartTooltipContent />}
             />
-            <Pie data={chartData} dataKey="visitors" nameKey="browser" />
+            <Pie
+              data={pieData}
+              dataKey="value"
+              nameKey="name"
+            />
           </PieChart>
         </ChartContainer>
       </CardContent>
+      <CardFooter>
+
+      </CardFooter>
     </Card>
-  )
+  );
 }

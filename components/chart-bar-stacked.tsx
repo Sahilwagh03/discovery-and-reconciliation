@@ -1,16 +1,14 @@
-"use client"
+"use client";
 
-import { TrendingUp } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
-
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+  CardDescription,
+} from "@/components/ui/card";
+
 import {
   ChartConfig,
   ChartContainer,
@@ -18,65 +16,106 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
 
-export const description = "A stacked bar chart with a legend"
+interface ResultType {
+  result: string;
+  count: number;
+}
 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-]
+interface CheckType {
+  check_name: string;
+  results: ResultType[];
+}
 
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "var(--chart-1)",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "var(--chart-2)",
-  },
-} satisfies ChartConfig
+interface ItemType {
+  object_type: string;
+  total_count: number;
+  checks: CheckType[];
+}
 
-export function ChartBarStacked() {
+export default function ChartDiscrepancyStacked({ data }: { data: ItemType[] }) {
+
+  const uniqueResults = Array.from(
+    new Set(
+      data.flatMap((item) =>
+        item.checks.flatMap((c) => c.results.map((r) => r.result.trim()))
+      )
+    )
+  );
+
+  const chartConfig: ChartConfig = uniqueResults.reduce(
+    (acc: any, key, index) => {
+      acc[key] = {
+        label: key,
+        color: `var(--chart-${index + 1})`,
+      };
+      return acc;
+    },
+    {}
+  );
+
+
+  const chartData = data.map((item) => {
+    const row: any = { object_type: item.object_type };
+
+    uniqueResults.forEach((res) => {
+      row[res] = 0;
+    });
+
+    item.checks.forEach((check) => {
+      check.results.forEach((r) => {
+        row[r.result.trim()] += r.count;
+      });
+    });
+
+    return row;
+  });
+
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Bar Chart - Stacked + Legend</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Discrepancy Summary</CardTitle>
+        <CardDescription>
+          Missing Data, Mismatch & Status Issues
+        </CardDescription>
       </CardHeader>
+
       <CardContent>
         <ChartContainer config={chartConfig}>
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
+
             <XAxis
-              dataKey="month"
+              dataKey="object_type"
               tickLine={false}
-              tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickMargin={10}
+              tickFormatter={(v) => v.slice(0, 8) + "..."}
             />
-            <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+
+            <ChartTooltip content={<ChartTooltipContent indicator="line" hideLabel />} />
             <ChartLegend content={<ChartLegendContent />} />
-            <Bar
-              dataKey="desktop"
-              stackId="a"
-              fill="var(--color-desktop)"
-              radius={[0, 0, 4, 4]}
-            />
-            <Bar
-              dataKey="mobile"
-              stackId="a"
-              fill="var(--color-mobile)"
-              radius={[4, 4, 0, 0]}
-            />
+
+            {uniqueResults.map((key, index) => (
+              <Bar
+                key={key}
+                dataKey={key}
+                stackId="a"
+                fill={chartConfig[key].color}
+                radius={
+                  index === 0
+                    ? [0, 0, 4, 4]
+                    : index === uniqueResults.length - 1
+                    ? [4, 4, 0, 0] 
+                    : 0 // middle bars
+                }
+              />
+            ))}
           </BarChart>
         </ChartContainer>
       </CardContent>
     </Card>
-  )
+  );
 }

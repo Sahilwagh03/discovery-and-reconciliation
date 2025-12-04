@@ -1,32 +1,30 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { LucideIcon } from "lucide-react";
+import { Icon, LucideIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export interface StatCardProps {
   title: string;
   value: number | string;
-  delta?: number;
-  icon?: LucideIcon;
+  icon?: string;
   className?: string;
 }
 
 export function StatCard({
   title,
   value,
-  delta,
-  icon: Icon,
+  icon = "",
   className = "",
 }: StatCardProps) {
   return (
-    <Card className={`rounded-2xl p-3 shadow-md ${className}`}>
+    <Card className={cn("rounded-2xl p-3 shadow-md justify-center",className)}>
       <CardContent className="p-0">
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg">
-              {Icon && <Icon className="w-6 h-6" />}
+          <div className="flex items-center gap-2">
+            <div className="text-3xl flex justify-center items-center p-1 rounded-lg">
+              {icon && icon}
             </div>
 
-            <div>
+            <div className="flex flex-col flex-2">
               <p className="text-sm text-slate-500 dark:text-slate-200">
                 {title}
               </p>
@@ -35,7 +33,6 @@ export function StatCard({
               </p>
             </div>
           </div>
-        </div>
       </CardContent>
     </Card>
   );

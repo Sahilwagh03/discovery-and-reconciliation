@@ -63,11 +63,17 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --chart-6: var(--color-yellow-500);
+  --chart-7: var(--color-cyan-500);
+  --chart-8: var(--color-fuchsia-500);
+  --chart-9: oklch(0.72 0.21 110);
+  --chart-10: oklch(0.58 0.22 220);
+  --chart-11: oklch(0.78 0.17 350);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
@@ -102,6 +108,12 @@
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
+  --chart-6: var(--color-yellow-500);
+  --chart-7: var(--color-cyan-500);
+  --chart-8: var(--color-fuchsia-500);
+  --chart-9: oklch(0.72 0.21 110);
+  --chart-10: oklch(0.58 0.22 220);
+  --chart-11: oklch(0.78 0.17 350);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
@@ -146,3 +158,66 @@ input:-moz-autofill {
   -moz-text-fill-color: #fff;
 }
 
+@media (max-width: 75rem) {
+  .tableContainer {
+    height: calc(100vh - 500px);
+    min-height: 400px;
+    max-height: 600px;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 48rem) {
+  .tableContainer {
+    height: calc(100vh - 450px);
+    min-height: 350px;
+    max-height: 500px;
+  }
+}
+
+@media (min-width: 120rem) {
+  .tableContainer {
+    height: 750px;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--muted);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: oklch(0.205 0 0);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: oklch(0.45 0 0);
+  border-radius: 8px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.65 0 0);
+}
+
+.dark * {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.45 0 0) oklch(0.205 0 0);
+}

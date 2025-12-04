@@ -8,45 +8,35 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { SummaryOverview, SummaryTableProps, TargetJson } from "@/interfaces/dashboard.interface";
+import { transformToSummaryJson } from "@/utils/dashboard.utils";
+import { useEffect, useState } from "react";
 
-// Interface for each column
-export interface SummaryColumn {
-  key: string;
-  label: string;
-}
-
-// Interface for each row
-export interface SummaryRow {
-  object_type: string;
-  values: Record<string, string | number | null>;
-}
-
-// Interface for whole table data
-export interface SummaryOverview {
-  columns: SummaryColumn[];
-  rows: SummaryRow[];
-}
-
-// Component Props Interface
-interface SummaryTableProps {
-  summaryOverview: SummaryOverview;
-}
 
 export default function SummaryTable({ summaryOverview }: SummaryTableProps) {
+
+  const [transformedSummaryData,setTransformedSummaryData] = useState<TargetJson>()
+  
+  useEffect(() => {
+    const transformedData = transformToSummaryJson(summaryOverview)
+    setTransformedSummaryData(transformedData)
+  }, []);
+
+
   return (
     <div className="rounded-md border overflow-hidden">
       <Table>
         <TableHeader>
           <TableRow className="bg-accent dark:bg-accent">
-            <TableHead className="font-semibold text-black dark:text-white border-r">
+            <TableHead className="font-semibold py-1 text-black dark:text-white border-r">
               Object
             </TableHead>
 
-            {summaryOverview.columns.map((column, index) => (
+            {transformedSummaryData?.columns.map((column, index) => (
               <TableHead
                 key={column.key}
-                className={`font-semibold text-black dark:text-white ${
-                  index !== summaryOverview.columns.length - 1
+                className={`font-semibold whitespace-normal text-center py-1 text-black dark:text-white ${
+                  index !== transformedSummaryData?.columns.length - 1
                     ? "border-r"
                     : ""
                 }`}
@@ -58,7 +48,7 @@ export default function SummaryTable({ summaryOverview }: SummaryTableProps) {
         </TableHeader>
 
         <TableBody>
-          {summaryOverview.rows.map((row, index) => (
+          {transformedSummaryData?.rows.map((row, index) => (
             <TableRow
               key={index}
             >
@@ -66,7 +56,7 @@ export default function SummaryTable({ summaryOverview }: SummaryTableProps) {
                 {row.object_type}
               </TableCell>
 
-              {summaryOverview.columns.map((column, colIndex) => {
+              {transformedSummaryData?.columns.map((column, colIndex) => {
                 const value = row.values[column.key];
                 return (
                   <TableCell
@@ -75,8 +65,8 @@ export default function SummaryTable({ summaryOverview }: SummaryTableProps) {
                       value
                         ? "text-black dark:text-white"
                         : "text-gray-400 dark:text-gray-500"
-                    } border-r ${
-                      colIndex === summaryOverview.columns.length - 1
+                    } border-r text-center ${
+                      colIndex === transformedSummaryData?.columns.length - 1
                         ? "border-r-0"
                         : ""
                     }`}
