@@ -9,9 +9,23 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
+const data = [
+  "Give me list of all interfaces with IP Address like 10.227.",
+  "Give me list of all AN interfaces with IP Address like 10.227.",
+  "Is there any IP address that is assigned to more than 1 NIs.",
+  "Return NIs that have mtu > 2000",
+  "Give List of all NEs whose name have 'AN' and interfaces status is UP",
+  "Perform a live comparison between network and inventory for following nodes : ",
+  "Give me list of all logical interfaces with VLAN 225.",
+  "Give me list of all logical interfaces with NO VLAN 225.",
+];
+
 import { Card } from "@/components/ui/card";
-export function RightSidebar({ children }: { children: ReactNode }) {
+import { useChatContext } from "@/context/chat-context";
+import DataSourceList from "./data-source-list";
+export function RightSidebar() {
   const { rightOpen } = useDualSidebar();
+  const { setUserInput } = useChatContext()
 
   return (
     <aside
@@ -29,31 +43,12 @@ export function RightSidebar({ children }: { children: ReactNode }) {
         <div className="h-full overflow-y-auto">
           <div>
             <div className="p-4 space-y-6">
-              <div className="grid grid-cols-1 gap-3">
-                <h2 className="text-lg font-semibold">Data Sources</h2>
-                <Card className="p-3 gap-2">
-                  <p className="font-medium">Network DB</p>
-                  <p className="text-sm text-muted-foreground">
-                    Live system data
-                  </p>
-                </Card>
-
-                <Card className="p-3 gap-2">
-                  <p className="font-medium">Inventory Logs</p>
-                  <p className="text-sm text-muted-foreground">
-                    Inventory snapshots
-                  </p>
-                </Card>
-
-                <Card className="p-3 gap-2">
-                  <p className="font-medium">Discrepancy Records</p>
-                  <p className="text-sm text-muted-foreground">
-                    Mismatch insights
-                  </p>
-                </Card>
-              </div>
-
-              <Accordion type="single" collapsible className="w-full mb-0 cursor-pointer">
+              <DataSourceList />
+              <Accordion
+                type="single"
+                collapsible
+                className="w-full mb-0 cursor-pointer"
+              >
                 <AccordionItem value="saved">
                   <AccordionTrigger className="hover:no-underline cursor-pointer">
                     Saved Queries
@@ -74,20 +69,22 @@ export function RightSidebar({ children }: { children: ReactNode }) {
                 </AccordionItem>
               </Accordion>
 
-              <Accordion type="single" collapsible className="w-full mb-0 cursor-pointer">
+              <Accordion
+                type="single"
+                collapsible
+                className="w-full mb-0 cursor-pointer"
+              >
                 <AccordionItem value="suggested">
                   <AccordionTrigger className="hover:no-underline cursor-pointer">
                     Suggested Queries
                   </AccordionTrigger>
                   <AccordionContent>
                     <ul className="space-y-2 text-sm">
-                      <li className="hover:bg-accent rounded-md p-2">
-                        Recent discrepancies
-                      </li>
-                      <li className="hover:bg-accent rounded-md p-2">
-                        Frequent missing items
-                      </li>
-                      <li className="hover:bg-accent rounded-md p-2">High-risk zones</li>
+                      {data.map((query) => (
+                        <li key={query} className="hover:bg-accent rounded-md p-2" onClick={()=> setUserInput(query)}>
+                          {query}
+                        </li>
+                      ))}
                     </ul>
                   </AccordionContent>
                 </AccordionItem>

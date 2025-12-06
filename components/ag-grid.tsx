@@ -6,15 +6,18 @@ import { ColDef, themeQuartz } from "ag-grid-community";
 import { ModuleRegistry } from "ag-grid-community";
 import { AllCommunityModule } from "ag-grid-community";
 import { useMemo } from "react";
-import { ColumnDefs, DiscrepancyItem } from "@/interfaces/dashboard.interface";
+import { cn } from "@/lib/utils";
+
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 interface DataAgGridProps {
-  rowData?: DiscrepancyItem[];
+  rowData?: any[];
   columnDefs?: ColDef<any,any>[];
+  className?:string;
 }
 
-export default function DataAgGrid({rowData=[],columnDefs=[]}:DataAgGridProps) {
+export default function DataAgGrid({rowData=[],columnDefs=[],className}:DataAgGridProps) {
+  console.log(rowData,columnDefs)
   const customTheme = useMemo(
     () =>
       themeQuartz.withParams({
@@ -39,14 +42,14 @@ export default function DataAgGrid({rowData=[],columnDefs=[]}:DataAgGridProps) {
   return (
     <div className="w-full transition-colors duration-200">
         <div className="rounded-lg overflow-hidden shadow-lg border">
-          <div className="tableContainer w-full h-120">
+          <div className={cn("tableContainer w-full h-120" , className)}>
             <AgGridReact
               rowData={rowData}
               columnDefs={columnDefs}
+              suppressFieldDotNotation
               theme={customTheme}
               domLayout="normal"
               animateRows={true}
-              rowSelection="multiple"
               pagination={true}
               paginationPageSize={50}
               paginationPageSizeSelector={[20, 50 , 100 , 150]}

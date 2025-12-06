@@ -61,7 +61,7 @@ export interface DeltaSummary {
 
 export interface DiscrepancyReport {
   items: {
-    tableData?: DiscrepancyItem[];
+    tableData?: any[];
     columnDefs?: ColDef<any,any>[];
   };
   summary: DeltaSummary[];

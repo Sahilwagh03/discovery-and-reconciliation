@@ -1,22 +1,41 @@
+import type { ColDef, GridApi } from "ag-grid-community";
 import { LucideIcon } from "lucide-react";
-import { SVGProps } from "react";
-
 
 export interface ChatMessage {
-  id: string;
-  sender: 'user' | 'bot';
+  id?: string;
+  sender: string;
   text: string;
   timestamp?: Date;
-  isTyping?: boolean;
-  table?: any;
+  table?: TableData;
   cypher?: string[];
   sql?: string;
-  llm_response?: any;
+  originalResponse?: Array<Record<string, any>>;
+  showColumnToggle?: boolean;
+  currentView?: "table" | "json";
+  showCypher?: boolean;
+  allColumns?: { id: string; headerName: string; isVisible: boolean }[];
+  gridApi?: GridApi;
+  llm_response?: string[];
   userInput?: string;
-  originalResponse?: any;
+  isTyping?: boolean;
   liked?: boolean;
   disliked?: boolean;
-  showCypher?: boolean;
+}
+
+export interface TableData {
+  headers?: string[];
+  rows?: string[][] | TableData;
+  tableData?: any[];
+  columnDefs?: ColDef<any, any>[];
+}
+
+export interface DataSource {
+  name: string;
+  icon: LucideIcon | string;
+  iconClass:string;
+  value: string;
+  lastSync?: string;
+  connected: boolean;
 }
 
 export interface ChatSession {
@@ -26,16 +45,28 @@ export interface ChatSession {
   lastUpdated: Date;
 }
 
-export interface DataSource {
-  name: string;
-  icon: LucideIcon | React.ElementType | string;
-  value: string;
-  lastSync: Date;
-  connected: boolean;
+export interface InputInterface {
+  llm_response?: string[];
+  response?: any[];
+  cypher?: string[];
+  sql_query?: string;
+  count?: string;
 }
 
 export interface SavedQuery {
-  query_title: string;
+  id?: string;
+  userId?: string;
+  query_title?: string;
+  user_prompt?: string;
   query: string;
   query_type: string;
+  created_at?: string;
+  modified_at?: string;
 }
+export interface MessageProps {
+  message:ChatMessage
+}
+
+export type LLMResponseObject = {
+  [key: string]: string[];
+};

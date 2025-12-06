@@ -221,3 +221,9 @@ input:-moz-autofill {
   scrollbar-width: thin;
   scrollbar-color: oklch(0.45 0 0) oklch(0.205 0 0);
 }
+
+.tableContainer .ag-layout-normal {
+  flex: auto !important;
+  height: auto !important;
+  max-height: 450px;
+}

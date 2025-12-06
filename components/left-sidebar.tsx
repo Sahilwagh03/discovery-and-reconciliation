@@ -7,10 +7,11 @@ import { chatHistory } from "@/constant/dashboard-constant";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Plus, SquarePen } from "lucide-react";
+import { useChatContext } from "@/context/chat-context";
 
-export function LeftSidebar({ children }: { children: ReactNode }) {
+export function LeftSidebar() {
   const { leftOpen } = useDualSidebar();
-
+  const { sessions , createNewSession , setActiveSession } = useChatContext();
   return (
     <aside
       className={cn(
@@ -29,7 +30,7 @@ export function LeftSidebar({ children }: { children: ReactNode }) {
             <h2 className="text-lg font-semibold">Chats</h2>
           </div>
 
-          <div className="px-2 pb-3">
+          <div className="px-2 pb-3" onClick={createNewSession}>
             <SideBarItem className="h-10 font-semibold">
               <span className="flex items-center gap-2">
                 <SquarePen className="mr-1 size-5!" />
@@ -45,13 +46,14 @@ export function LeftSidebar({ children }: { children: ReactNode }) {
           </div>
 
           <div className="space-y-1 px-2 overflow-y-auto pb-4">
-            {chatHistory.map(({ title, id }) => (
+            {sessions.map(({ name, id }) => (
               <SideBarItem
                 key={id}
                 id={id}
                 className="h-10 mb-0 py-1 font-normal"
+                onClick={()=>setActiveSession(id)}
               >
-                {title}
+                {name}
               </SideBarItem>
             ))}
           </div>
