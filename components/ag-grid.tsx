@@ -12,12 +12,17 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
 interface DataAgGridProps {
   rowData?: any[];
-  columnDefs?: ColDef<any,any>[];
-  className?:string;
+  columnDefs?: ColDef<any, any>[];
+  className?: string;
+  onGridReady?: (params: any) => void;
 }
 
-export default function DataAgGrid({rowData=[],columnDefs=[],className}:DataAgGridProps) {
-  console.log(rowData,columnDefs)
+export default function DataAgGrid({
+  rowData = [],
+  columnDefs = [],
+  className,
+  onGridReady
+}: DataAgGridProps) {
   const customTheme = useMemo(
     () =>
       themeQuartz.withParams({
@@ -41,21 +46,22 @@ export default function DataAgGrid({rowData=[],columnDefs=[],className}:DataAgGr
 
   return (
     <div className="w-full transition-colors duration-200">
-        <div className="rounded-lg overflow-hidden shadow-lg border">
-          <div className={cn("tableContainer w-full h-120" , className)}>
-            <AgGridReact
-              rowData={rowData}
-              columnDefs={columnDefs}
-              suppressFieldDotNotation
-              theme={customTheme}
-              domLayout="normal"
-              animateRows={true}
-              pagination={true}
-              paginationPageSize={50}
-              paginationPageSizeSelector={[20, 50 , 100 , 150]}
-            />
-          </div>
+      <div className="rounded-lg overflow-hidden shadow-lg border">
+        <div className={cn("w-full h-120", className ? className : "tableContainer")}>
+          <AgGridReact
+            rowData={rowData}
+            columnDefs={columnDefs}
+            suppressFieldDotNotation
+            theme={customTheme}
+            domLayout="normal"
+            animateRows={true}
+            pagination={true}
+            paginationPageSize={50}
+            paginationPageSizeSelector={[20, 50, 100, 150]}
+            onGridReady={onGridReady}
+          />
         </div>
+      </div>
     </div>
   );
 }

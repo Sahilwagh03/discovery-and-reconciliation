@@ -1,6 +1,6 @@
 "use client";
+
 import { useDualSidebar } from "@/context/dual-sidebar-context";
-import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import {
   Accordion,
@@ -8,8 +8,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useChatContext } from "@/context/chat-context";
+import { useSaveQuery } from "@/hooks/useSaveQuery"; // <-- IMPORTANT
 
-const data = [
+import DataSourceList from "./data-source-list";
+import { SideBarItem } from "./sidebar-common";
+import SavedQueryButtonSkeleton from "./loading/global/SavedQueryButtonSkeleton";
+
+const suggestedQueries = [
   "Give me list of all interfaces with IP Address like 10.227.",
   "Give me list of all AN interfaces with IP Address like 10.227.",
   "Is there any IP address that is assigned to more than 1 NIs.",
@@ -20,13 +26,12 @@ const data = [
   "Give me list of all logical interfaces with NO VLAN 225.",
 ];
 
-import { Card } from "@/components/ui/card";
-import { useChatContext } from "@/context/chat-context";
-import DataSourceList from "./data-source-list";
 export function RightSidebar() {
   const { rightOpen } = useDualSidebar();
-  const { setUserInput } = useChatContext()
+  const { setUserInput } = useChatContext();
 
+  const { savedQueries, isLoadingSaved } = useSaveQuery();
+  console.log(savedQueries)
   return (
     <aside
       className={cn(
@@ -41,55 +46,56 @@ export function RightSidebar() {
         )}
       >
         <div className="h-full overflow-y-auto">
-          <div>
-            <div className="p-4 space-y-6">
-              <DataSourceList />
-              <Accordion
-                type="single"
-                collapsible
-                className="w-full mb-0 cursor-pointer"
-              >
-                <AccordionItem value="saved">
-                  <AccordionTrigger className="hover:no-underline cursor-pointer">
-                    Saved Queries
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <ul className="space-y-2 text-sm">
-                      <li className="hover:bg-accent rounded-md p-2">
-                        Top 10 mismatches
-                      </li>
-                      <li className="hover:bg-accent rounded-md p-2">
-                        Inventory missing
-                      </li>
-                      <li className="hover:bg-accent rounded-md p-2">
-                        Network-only items
-                      </li>
-                    </ul>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
+          <div className="p-4 flex flex-col gap-2">
 
-              <Accordion
-                type="single"
-                collapsible
-                className="w-full mb-0 cursor-pointer"
-              >
-                <AccordionItem value="suggested">
-                  <AccordionTrigger className="hover:no-underline cursor-pointer">
-                    Suggested Queries
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <ul className="space-y-2 text-sm">
-                      {data.map((query) => (
-                        <li key={query} className="hover:bg-accent rounded-md p-2" onClick={()=> setUserInput(query)}>
-                          {query}
-                        </li>
+            <DataSourceList />
+            <Accordion type="single" defaultValue="saved" collapsible className="w-full cursor-pointer">
+              <AccordionItem value="saved">
+                <AccordionTrigger className="hover:no-underline cursor-pointer">
+                  Saved Queries
+                </AccordionTrigger>
+
+                <AccordionContent className="pb-0">
+                  {isLoadingSaved ? (
+                    <SavedQueryButtonSkeleton/>
+                  ) : savedQueries?.queries?.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">No saved queries</p>
+                  ) : (
+                    <ul className="space-y-1 text-sm">
+                      {savedQueries?.queries?.map((item: any) => (
+                        <SideBarItem
+                          key={item.id}
+                          className="h-10 cursor-pointer"
+                          onClick={() => setUserInput(item.query_title)}
+                        >
+                          {item.query_title}
+                        </SideBarItem>
                       ))}
                     </ul>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
+                  )}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+            <Accordion type="single" defaultValue="suggested" collapsible className="w-full cursor-pointer">
+              <AccordionItem value="suggested">
+                <AccordionTrigger className="hover:no-underline cursor-pointer">
+                  Suggested Queries
+                </AccordionTrigger>
+                <AccordionContent>
+                  <ul className="space-y-2 text-sm">
+                    {suggestedQueries.map((query) => (
+                      <li
+                        key={query}
+                        className="hover:bg-accent rounded-md p-2 cursor-pointer"
+                        onClick={() => setUserInput(query)}
+                      >
+                        {query}
+                      </li>
+                    ))}
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
         </div>
       </div>

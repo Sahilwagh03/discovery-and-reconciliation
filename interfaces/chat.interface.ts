@@ -70,3 +70,11 @@ export interface MessageProps {
 export type LLMResponseObject = {
   [key: string]: string[];
 };
+
+export interface SaveQueryPayload {
+  userId: string;
+  user_prompt?: string;
+  query_title: string;
+  query: string;
+  query_type: "cypher" | "sql";
+}

@@ -30,7 +30,7 @@ export function useLogin() {
 
     onError: (err) => {
       console.log("Login Error:", err.message);
-      toast.error(err.message); // optional: show error toast
+      toast.error(err.message);
     },
   });
 

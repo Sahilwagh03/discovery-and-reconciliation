@@ -1,12 +1,9 @@
 "use client";
 import { useDualSidebar } from "@/context/dual-sidebar-context";
-import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { SideBarItem } from "./sidebar-common";
-import { chatHistory } from "@/constant/dashboard-constant";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Search, Plus, SquarePen } from "lucide-react";
+import { Search, SquarePen } from "lucide-react";
 import { useChatContext } from "@/context/chat-context";
 
 export function LeftSidebar() {

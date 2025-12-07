@@ -25,6 +25,7 @@ interface ChatContextType {
   activeSessionId: string | null;
   selectedDataSource: DataSource;
   isBotTyping: boolean;
+  gridApis: Record<string, any>;
   setMessages: (message: ChatMessage[]) => void;
   setUserInput: (input: string) => void;
   setSessions: (sessions: ChatSession[]) => void;
@@ -33,6 +34,8 @@ interface ChatContextType {
   sendMessage: () => void;
   createNewSession: () => ChatSession;
   setActiveSession: (sessionId: string) => void;
+  setGridApi: (messageId: string, api: any) => void;
+  copyToClipboard: (message: ChatMessage) => void;
 }
 
 const ChatContext = createContext<ChatContextType | null>(null);
@@ -50,8 +53,11 @@ export default function ChatProvider({ children }: { children: ReactNode }) {
   const [userInput, setUserInput] = useState<string>("");
   const [sessions, setSessions] = useState<ChatSession[]>([]);
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
-  const [selectedDataSource, setSelectedDataSource] = useState<DataSource>(dataSources[1]);
+  const [selectedDataSource, setSelectedDataSource] = useState<DataSource>(
+    dataSources[1]
+  );
   const [isBotTyping, setIsBotTyping] = useState(false);
+  const [gridApis, setGridApis] = useState<Record<string, any>>({});
   const initialized = useRef(false);
 
   useEffect(() => {
@@ -64,7 +70,7 @@ export default function ChatProvider({ children }: { children: ReactNode }) {
 
   const sendMessage = async () => {
     if (!userInput.trim()) return;
-    const finalPrompt = `${userInput} db='${selectedDataSource.value}'`
+    const finalPrompt = `${userInput} db='${selectedDataSource.value}'`;
     const userMsg: ChatMessage = {
       id: uuidv4(),
       sender: "user",
@@ -83,7 +89,14 @@ export default function ChatProvider({ children }: { children: ReactNode }) {
       setSessions((prev) =>
         prev.map((s) =>
           s.id === activeSessionId
-            ? { ...s, messages: [...prev.find((x) => x.id === activeSessionId)!.messages, userMsg, formattedResponse] }
+            ? {
+                ...s,
+                messages: [
+                  ...prev.find((x) => x.id === activeSessionId)!.messages,
+                  userMsg,
+                  formattedResponse,
+                ],
+              }
             : s
         )
       );
@@ -108,6 +121,21 @@ export default function ChatProvider({ children }: { children: ReactNode }) {
     setMessages(session.messages);
   };
 
+  const setGridApi = (messageId: string, api: any) => {
+    setGridApis((prev) => ({ ...prev, [messageId]: api }));
+  };
+
+  const copyToClipboard = async(message: ChatMessage) => {
+    if (!message) return;
+    const textToCopy = JSON.stringify(message.originalResponse, null, 2);
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      console.log("Copied!");
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
+  };
+
   return (
     <ChatContext.Provider
       value={{
@@ -117,6 +145,7 @@ export default function ChatProvider({ children }: { children: ReactNode }) {
         activeSessionId,
         selectedDataSource,
         isBotTyping,
+        gridApis,
         setMessages,
         setUserInput,
         setSessions,
@@ -125,6 +154,8 @@ export default function ChatProvider({ children }: { children: ReactNode }) {
         sendMessage,
         createNewSession,
         setActiveSession,
+        setGridApi,
+        copyToClipboard,
       }}
     >
       {children}

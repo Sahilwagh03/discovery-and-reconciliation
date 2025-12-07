@@ -50,7 +50,6 @@ const Reports = () => {
       },
     };
     setReportData(report);
-    console.log(report);
   };
 
   useEffect(() => {
