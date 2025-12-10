@@ -17,7 +17,7 @@ export function StatCard({
   className = "",
 }: StatCardProps) {
   return (
-    <Card className={cn("rounded-2xl p-3 shadow-md justify-center",className)}>
+    <Card className={cn("rounded-2xl p-3 shadow-sm justify-center",className)}>
       <CardContent className="p-0">
           <div className="flex items-center gap-2">
             <div className="text-3xl flex justify-center items-center p-1 rounded-lg">

@@ -1,10 +1,9 @@
 import { MESSAGE_SENDER } from "@/constant/chatConstants";
-import { MessageSender } from "@/interfaces/chat.interface";
 import { cn } from "@/lib/utils";
 import { BotMessageSquare, User as UserIcon } from "lucide-react";
 
 interface MessageAvatarProps {
-  sender: MessageSender;
+  sender: string;
 }
 
 const MessageAvatar = ({ sender }: MessageAvatarProps) => {

@@ -4,7 +4,7 @@ import { LucideIcon } from "lucide-react";
 export interface ChatMessage {
   id?: string;
   sender: string;
-  text: string;
+  text?: string;
   timestamp?: Date;
   table?: TableData;
   cypher?: string[];
@@ -32,7 +32,7 @@ export interface TableData {
 export interface DataSource {
   name: string;
   icon: LucideIcon | string;
-  iconClass:string;
+  iconClass: string;
   value: string;
   lastSync?: string;
   connected: boolean;
@@ -54,9 +54,9 @@ export interface InputInterface {
 }
 
 export interface SavedQuery {
-  id?: string;
+  id: string;
   userId?: string;
-  query_title?: string;
+  query_title: string;
   user_prompt?: string;
   query: string;
   query_type: string;
@@ -64,7 +64,7 @@ export interface SavedQuery {
   modified_at?: string;
 }
 export interface MessageProps {
-  message:ChatMessage
+  message: ChatMessage;
 }
 
 export type LLMResponseObject = {
@@ -77,4 +77,9 @@ export interface SaveQueryPayload {
   query_title: string;
   query: string;
   query_type: "cypher" | "sql";
+}
+
+export interface executeQueryPayload {
+  query: string;
+  query_type: string | "cypher" | "sql";
 }

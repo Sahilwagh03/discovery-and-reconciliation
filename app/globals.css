@@ -222,14 +222,57 @@ input:-moz-autofill {
   scrollbar-color: oklch(0.45 0 0) oklch(0.205 0 0);
 }
 
-.tableContainer .ag-layout-normal {
+.chat-table-view .ag-layout-normal {
   flex: auto !important;
   height: auto !important;
   max-height: 450px;
 }
 
-.chat-table-view .ag-layout-normal {
-  flex: auto !important;
-  height: auto !important;
-  max-height: 450px;
+.typingBubble {
+  border-radius: 1.125rem;
+  backdrop-filter: blur(4px);
+}
+
+.typingRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.typingIcon {
+  font-size: 1.2rem;
+  animation: iconShimmer 1.4s infinite ease-in-out,
+    swingIcon 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
+}
+
+/* White shimmer glow animation */
+@keyframes iconShimmer {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.95) rotate(0deg);
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 1));
+  }
+  100% {
+    opacity: 0.5;
+    transform: scale(0.95) rotate(0deg);
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+  }
+}
+
+@keyframes swingIcon {
+  0% {
+    transform: rotate(-180deg);
+  }
+  50% {
+    transform: rotate(180deg); /* swing fully to the right */
+  }
+  100% {
+    transform: rotate(-180deg); /* back to left */
+  }
 }

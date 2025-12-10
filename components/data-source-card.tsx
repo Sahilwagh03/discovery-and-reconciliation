@@ -14,7 +14,7 @@ interface Props {
 const DataSourceCard = ({ item, isSelected }: Props) => {
   const Icon = item.icon;
   const styles = getCardStyles(isSelected);
-  const statusDot = getStatusDotStyles(item.connected);
+  const statusDot = getStatusDotStyles(item.connected, isSelected);
 
   return (
     <label htmlFor={item.value} className={baseStyles.label}>

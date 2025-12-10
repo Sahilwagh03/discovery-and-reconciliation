@@ -1,5 +1,6 @@
 "use client";
 import DataAgGrid from "@/components/ag-grid";
+import ReportSkeleton from "@/components/loading/sections/report/ReportSkeleton";
 import { StatCard } from "@/components/stats-card";
 import { useDashboard } from "@/hooks/useDashboard";
 import {
@@ -7,34 +8,7 @@ import {
   DiscrepancyReport,
 } from "@/interfaces/dashboard.interface";
 import { countResults, createColumnDefs } from "@/utils/dashboard.utils";
-import { AlertTriangle, Box, Layers, WifiOff } from "lucide-react";
 import { useEffect, useState } from "react";
-const defaultData = [
-  {
-    id: "total_discrepancy",
-    title: "Total Discrepancy",
-    value: 187,
-    icon: Layers,
-  },
-  {
-    id: "mismatch",
-    title: "Mismatch",
-    value: 128,
-    icon: AlertTriangle,
-  },
-  {
-    id: "missing_inventory",
-    title: "Missing in Inventory",
-    value: 42,
-    icon: Box,
-  },
-  {
-    id: "missing_network",
-    title: "Missing in Network",
-    value: 17,
-    icon: WifiOff,
-  },
-];
 
 const Reports = () => {
   const { data, isLoading, error } = useDashboard(true);
@@ -59,7 +33,7 @@ const Reports = () => {
   }, [isLoading]);
 
   if (isLoading) {
-    return;
+    return <ReportSkeleton/>
   }
 
   if (error || !data) {

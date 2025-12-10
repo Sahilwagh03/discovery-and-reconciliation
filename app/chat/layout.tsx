@@ -13,13 +13,13 @@ function ChatLayout({ children }: Props) {
   return (
     <ChatProvider>
       <DualSidebarProvider>
-        <section className="fixed inset-0 w-full h-screen flex flex-col overflow-hidden">
+        <section className="fixed inset-0 w-full h-screen max-h-svh flex flex-col overflow-clip">
           <ChatHeder />
 
           <div className="flex flex-row flex-nowrap flex-1 overflow-hidden">
             <LeftSidebar></LeftSidebar>
 
-            <div className="flex-1 overflow-y-auto">{children}</div>
+            <div className="flex-1 overflow-y-auto" >{children}</div>
 
             <RightSidebar></RightSidebar>
           </div>

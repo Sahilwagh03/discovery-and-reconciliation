@@ -12,44 +12,45 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { DialogClose, DialogTrigger } from "@radix-ui/react-dialog";
 import { useSaveQuery } from "@/hooks/useSaveQuery";
-import { ChatMessage, SaveQueryPayload } from "@/interfaces/chat.interface";
+import { SavedQuery } from "@/interfaces/chat.interface";
 
 interface SaveQueryDialogProps {
   title: string;
   action: "save" | "update";
   children: ReactNode;
-  message: ChatMessage;
+  initialValue: string;
+  basePayload: SavedQuery;
 }
 
 const SaveQueryDialog = ({
   title,
   action,
   children,
-  message,
+  initialValue="",
+  basePayload,
 }: SaveQueryDialogProps) => {
-  const [value, setValue] = useState(message.userInput);
-  const { saveQuery, isSaving } = useSaveQuery();
+
+  const [value, setValue] = useState(initialValue);
+  const { saveQuery, isSaving, editQuery } = useSaveQuery();
 
   const handleConfirm = () => {
     if (!value?.trim()) return;
 
-    const isCypher = Array.isArray(message?.cypher) && message.cypher.length > 0;
-    const query = isCypher ? message?.cypher?.[0] : message.sql || "";
-
-    const payload:SaveQueryPayload = {
-      userId: "id080026",
-      user_prompt: message?.userInput,
+    const payload: SavedQuery = {
+      ...basePayload,
       query_title: value,
-      query:query || "",
-      query_type: isCypher ? "cypher" : "sql",
     };
 
-    saveQuery(payload);
+    if (action === "save") {
+      saveQuery(payload);
+    } else if (action === "update" && payload.id) {
+      editQuery({ id: payload.id, payload });
+    }
   };
 
   return (
     <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogTrigger asChild onClick={()=>setValue(initialValue)}>{children}</DialogTrigger>
 
       <DialogContent
         onOpenAutoFocus={(e) => e.preventDefault()}
@@ -69,12 +70,12 @@ const SaveQueryDialog = ({
 
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
+            <Button variant="outline"  className="cursor-pointer">Cancel</Button>
           </DialogClose>
 
           <DialogClose asChild>
             <Button
-              className="bg-sidebar-primary text-white"
+              className="bg-sidebar-primary text-white hover:bg-sidebar-primary cursor-pointer"
               onClick={handleConfirm}
               disabled={isSaving}
             >

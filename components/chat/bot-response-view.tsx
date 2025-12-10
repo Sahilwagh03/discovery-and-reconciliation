@@ -27,7 +27,7 @@ const BotResponseView = ({ message }: BotResponseProps) => {
     <>
       <OnDemand llm={llm} />
       {message.table && (
-        <Tabs className="w-full" defaultValue="table">
+        <Tabs className="w-full overflow-x-auto" defaultValue="table">
           <TabsList>
             <BotResponseTabs message={message} />
           </TabsList>

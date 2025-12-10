@@ -46,7 +46,7 @@ export default function DataAgGrid({
 
   return (
     <div className="w-full transition-colors duration-200">
-      <div className="rounded-lg overflow-hidden shadow-lg border">
+      <div className="rounded-lg overflow-hidden shadow-sm border">
         <div className={cn("w-full h-120", className ? className : "tableContainer")}>
           <AgGridReact
             rowData={rowData}

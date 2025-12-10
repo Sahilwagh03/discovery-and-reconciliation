@@ -3,6 +3,7 @@ import { Info, Menu, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { useDualSidebar } from "@/context/dual-sidebar-context";
 import Link from "next/link";
+import { ModeToggle } from "./theme-toggle";
 
 export default function ChatHeader() {
   const { leftOpen, rightOpen, toggleLeft, toggleRight } = useDualSidebar();
@@ -25,19 +26,18 @@ export default function ChatHeader() {
         <div className="flex flex-row items-center gap-2">
           <Button
             variant="outline"
-            size="icon"
             onClick={toggleRight}
             aria-label={rightOpen ? "Close settings" : "Open settings"}
-            className="cursor-pointer"
+            className="cursor-pointer flex items-center gap-1"
           >
             <Info className="h-5 w-5" />
+            Configuration 
           </Button>
-          <Link href='/dashboard'>
+          <ModeToggle/>
+          <Link href="/dashboard">
             <Button
-              variant="outline"
-              size="icon"
               aria-label="Close chat"
-              className="cursor-pointer"
+              className="cursor-pointer bg-red-500 text-white hover:bg-red-500 dark:bg-red-500 dark:hover:bg-red-500 dark:text-white"
             >
               <X className="h-5 w-5" />
             </Button>

@@ -1,11 +1,25 @@
 "use client";
+
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Send } from "lucide-react";
 import { useChatContext } from "@/context/chat-context";
 
 const ChatInput = () => {
-  const { userInput, setUserInput ,sendMessage} = useChatContext();
+  const { userInput, setUserInput, sendMessage  , isBotTyping} = useChatContext();
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && userInput.trim()) {
+      sendMessage();
+    }
+  };
+
+  const handleClick = () => {
+    if (userInput.trim()) {
+      sendMessage();
+    }
+  };
+
   return (
     <div className="border-t bg-background p-4 sticky bottom-0 left-0">
       <div className="flex items-center gap-2">
@@ -14,8 +28,14 @@ const ChatInput = () => {
           className="flex-1"
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
-        <Button size="icon" className="cursor-pointer" onClick={sendMessage}>
+        <Button
+          size="icon"
+          className="cursor-pointer"
+          onClick={handleClick}
+          disabled={!userInput.trim() || isBotTyping}
+        >
           <Send className="h-5 w-5" />
         </Button>
       </div>

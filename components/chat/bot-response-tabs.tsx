@@ -8,7 +8,6 @@ type BotResponseTabsProp = {
   message: ChatMessage;
 };
 const BotResponseTabs = ({ message }: BotResponseTabsProp) => {
-
   const { gridApis } = useChatContext();
 
   const exportCSV = () => {
@@ -17,11 +16,11 @@ const BotResponseTabs = ({ message }: BotResponseTabsProp) => {
     });
   };
 
-  
-  
   return (
     <div className="w-full border mb-2 p-1.5 rounded-lg flex flex-row gap-2">
-      <Button className="flex-1 cursor-pointer" onClick={exportCSV}>Export to CSV</Button>
+      <Button className="flex-1 cursor-pointer" onClick={exportCSV}>
+        Export to CSV
+      </Button>
       <TabsTrigger
         className={cn(buttonVariants(), "flex-1 cursor-pointer")}
         value="table"
@@ -34,12 +33,14 @@ const BotResponseTabs = ({ message }: BotResponseTabsProp) => {
       >
         View JSON
       </TabsTrigger>
-      <TabsTrigger
-        className={cn(buttonVariants(), "flex-1 cursor-pointer")}
-        value="query"
-      >
-        View {(message.cypher && "Cypher") || (message.sql && "SQL") || ""}
-      </TabsTrigger>
+      {(message.cypher || message.sql) && (
+        <TabsTrigger
+          className={cn(buttonVariants(), "flex-1 cursor-pointer")}
+          value="query"
+        >
+          View {(message.cypher && "Cypher") || (message.sql && "SQL") || ""}
+        </TabsTrigger>
+      )}
     </div>
   );
 };

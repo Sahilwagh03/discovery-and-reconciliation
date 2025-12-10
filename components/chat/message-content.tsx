@@ -4,21 +4,31 @@ import { cn } from "@/lib/utils";
 import MessageLabel from "./message-label";
 import MessageText from "./message-text";
 import BotResponseView from "./bot-response-view";
+import ChatLoader from "../chat-loader";
 
-const MeassageContent = ({ message }: MessageProps) => {
-  const isBOT = message.sender === MESSAGE_SENDER.BOT;
+const MessageContent = ({ message }: MessageProps) => {
+  const { sender, text, isTyping } = message;
+  const isBot = sender === MESSAGE_SENDER.BOT;
+
   return (
     <div
       className={cn(
-        "max-w-[80%] flex flex-col w-full min-h-12 max-h-fit rounded-2xl gap-2",
-        isBOT ? "items-start" : "items-end"
+        "flex flex-col w-full max-w-[80%] min-h-12 max-h-fit gap-2 rounded-2xl",
+        isBot ? "items-start" : "items-end"
       )}
     >
-      <MessageLabel label={isBOT ? "Neo" : "User"}/>
-      <MessageText>{message.text}</MessageText>
-      <BotResponseView message={message} />
+      <MessageLabel label={isBot ? "Neo" : "User"} />
+
+      {isTyping ? (
+        <ChatLoader />
+      ) : (
+        <>
+          <MessageText>{text}</MessageText>
+          {isBot && <BotResponseView message={message} />}
+        </>
+      )}
     </div>
   );
 };
 
-export default MeassageContent;
+export default MessageContent;

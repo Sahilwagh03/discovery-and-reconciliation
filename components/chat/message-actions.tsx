@@ -7,13 +7,26 @@ import { useChatContext } from "@/context/chat-context";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import SaveQueryDialog from "./save-query-dialog";
+import { MESSAGE_SENDER } from "@/constant/chatConstants";
+import { ChatMessage } from "@/interfaces/chat.interface";
 
 const MessageActions = ({ message }: BotResponseProps) => {
   const { messages, copyToClipboard } = useChatContext();
   const [copied, setCopied] = useState(false);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  if (message.sender !== "bot") {
+  const buildPayload = (message:ChatMessage) =>{
+    const isCypher = Array.isArray(message?.cypher) && message.cypher.length > 0; const query = isCypher ? message?.cypher?.[0] : message.sql || "";
+    return { 
+      id: message.id || "", 
+      userId: "id080026",
+      user_prompt: message?.userInput, 
+      query:query || "", 
+      query_type: isCypher ? "cypher" : "sql", 
+      query_title: message.userInput ?? ""
+    };
+  }
+
+  if (message.sender !== MESSAGE_SENDER.BOT) {
     return null;
   }
 
@@ -59,7 +72,8 @@ const MessageActions = ({ message }: BotResponseProps) => {
         <SaveQueryDialog
           title="Save Query"
           action="save"
-          message={message}
+          initialValue={message?.userInput ?? ""}
+          basePayload={buildPayload(message)}
         >
           <Button
             variant="outline"

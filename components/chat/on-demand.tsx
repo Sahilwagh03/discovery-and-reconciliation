@@ -13,9 +13,8 @@ const OnDemand = ({ llm }: OnDemandProps) => {
       {llm?.map((deviceObj, deviceIndex) =>
         Object.keys(deviceObj).map((key) => (
           <div key={`${deviceIndex}-${key}`} className="mb-4">
-            <h3 className="text-white mb-1">{key}</h3>
-
-            <div className="bg-[#1a2633] rounded-md p-2.5 font-mono whitespace-pre-wrap">
+            <h3 className="font-bold text-2xl mb-1">{key}</h3>
+            <div className="bg-accent rounded-md p-2.5 font-mono whitespace-pre-wrap">
               {deviceObj[key].map((line, lineIndex) => (
                 <div className="text-[0.7rem] my-[0.4rem]" key={lineIndex}>
                   {line}

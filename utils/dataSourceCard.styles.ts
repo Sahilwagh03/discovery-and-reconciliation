@@ -24,10 +24,13 @@ export const getCardStyles = (isSelected: boolean) => ({
     : "border-gray-300 dark:border-gray-700 group-hover:border-gray-400 dark:group-hover:border-gray-600",
 });
 
-export const getStatusDotStyles = (connected: boolean) =>
-  connected
-    ? "bg-green-500 shadow-md shadow-green-500/50"
-    : "bg-gray-400 dark:bg-gray-600";
+export const getStatusDotStyles = (connected: boolean, isSelected: boolean) => {
+  if (isSelected && connected) {
+    return "bg-green-500 shadow-md shadow-green-500/50";
+  } else {
+    return "bg-gray-400 dark:bg-gray-600";
+  }
+};
 
 // Base styles that don't change
 export const baseStyles = {
