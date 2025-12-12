@@ -38,8 +38,8 @@ export default function ChartDiscrepancyStacked({ data }: { data: ItemType[] }) 
 
   const uniqueResults = Array.from(
     new Set(
-      data.flatMap((item) =>
-        item.checks.flatMap((c) => c.results.map((r) => r.result.trim()))
+      data?.flatMap((item) =>
+        item?.checks?.flatMap((c) => c?.results?.map((r) => r.result.trim()))
       )
     )
   );

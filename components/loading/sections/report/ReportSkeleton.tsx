@@ -10,7 +10,7 @@ const ReportSkeleton = () => {
           <StatCardSkeleton key={index} />
         ))}
       </div>
-      <SummaryTableSkeleton rows={10}/>
+      <SummaryTableSkeleton rows={14} cols={7}/>
     </div>
   );
 };

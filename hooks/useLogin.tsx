@@ -1,14 +1,16 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation"; // Next.js router
+import { useRouter } from "next/navigation";
 import { LoginSchema } from "@/schemas/auth.schema";
 import { LoginPayload, LoginResponse } from "@/interfaces/auth.interface";
 import { loginUser } from "@/services/auth.service";
 import { toast } from "sonner";
+import { useAuthToken } from "@/hooks/useAuthToken";
 
 export function useLogin() {
   const router = useRouter();
+  const { setToken } = useAuthToken();
 
   const mutation = useMutation<LoginResponse, Error, LoginPayload>({
     mutationFn: async (payload) => {
@@ -21,7 +23,8 @@ export function useLogin() {
     },
 
     onSuccess: (data) => {
-      toast.success("Successfully logged in!");
+      setToken(data.token);
+      toast.success(data.message || "Login successful");
 
       setTimeout(() => {
         router.push("/dashboard");

@@ -12,6 +12,7 @@ import {
 } from "./ui/dropdown-menu";
 import { BadgeCheck, Bell, CreditCard, LogOut, Sparkles } from "lucide-react";
 import { ReactNode } from "react";
+import { useLogout } from "@/hooks/useLogOut";
 
 interface UserActionMenuProps {
   children: ReactNode;
@@ -24,7 +25,7 @@ const UserActionMenu = ({ children }: UserActionMenuProps) => {
   };
 
   const isMobile = useIsMobile();
-  
+  const { logout } = useLogout();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
@@ -69,7 +70,7 @@ const UserActionMenu = ({ children }: UserActionMenuProps) => {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={logout}>
           <LogOut />
           Log out
         </DropdownMenuItem>

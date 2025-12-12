@@ -4,18 +4,15 @@ import { authConstants } from "@/constant/authConstants";
 
 export async function loginUser(payload: LoginSchemaType) {
   const { loginUrl } = authConstants;
-  
-  // Add 2000ms (2 seconds) delay to simulate loading
-  await new Promise(resolve => setTimeout(resolve, 2000));
-  
-  // const { data } = await api.post(loginUrl, payload);
-  const data = {
-    token: "mocked-jwt-token",
-    user: {
-      id: "12345",
-      email: payload.email,
-    }
-  };
-  
+  const username = payload.email;
+  const password = payload.password;
+  const basicToken = btoa(`${username}:${password}`);
+
+  const { data } = await api.get(loginUrl, {
+    headers: {
+      Authorization: `Basic ${basicToken}`,
+    },
+  });
+
   return data;
 }

@@ -18,6 +18,8 @@ export const useSaveQuery = () => {
   const savedQueriesQuery = useQuery({
     queryKey: ["saved-queries"],
     queryFn: getSavedQueries,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,    
   });
 
   const saveQueryMutation = useMutation({

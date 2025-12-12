@@ -10,8 +10,11 @@ export default function ChatHeader() {
 
   return (
     <header className="h-14 border-b bg-background/95 backdrop-blur">
-      <div className="flex h-full items-center justify-between px-4">
-        <div className="flex flex-row items-center gap-2">
+      <div className="flex h-full items-center justify-between px-2 sm:px-4">
+        
+        {/* LEFT SECTION */}
+        <div className="flex items-center gap-2">
+          {/* Sidebar toggle */}
           <Button
             variant="outline"
             size="icon"
@@ -21,9 +24,17 @@ export default function ChatHeader() {
           >
             <Menu className="h-5 w-5" />
           </Button>
-          <h1 className="font-semibold">Network & Inventory</h1>
+
+          {/* Title */}
+          <h1 className="font-semibold text-sm sm:text-base truncate">
+            Network & Inventory
+          </h1>
         </div>
-        <div className="flex flex-row items-center gap-2">
+
+        {/* RIGHT SECTION */}
+        <div className="flex items-center gap-2">
+
+          {/* CONFIG button (text hidden on mobile) */}
           <Button
             variant="outline"
             onClick={toggleRight}
@@ -31,18 +42,31 @@ export default function ChatHeader() {
             className="cursor-pointer flex items-center gap-1"
           >
             <Info className="h-5 w-5" />
-            Configuration 
+            <span className="hidden sm:inline">Configuration</span>
           </Button>
-          <ModeToggle/>
+
+          {/* Theme toggle */}
+          <div className="hidden sm:block">
+            <ModeToggle />
+          </div>
+
+          {/* Smaller Mode Toggle for mobile */}
+          <div className="sm:hidden">
+            <ModeToggle />
+          </div>
+
+          {/* Close Button */}
           <Link href="/dashboard">
             <Button
+              size="icon"
               aria-label="Close chat"
-              className="cursor-pointer bg-red-500 text-white hover:bg-red-500 dark:bg-red-500 dark:hover:bg-red-500 dark:text-white"
+              className="cursor-pointer bg-red-500 text-white hover:bg-red-600 dark:bg-red-500 dark:hover:bg-red-600"
             >
               <X className="h-5 w-5" />
             </Button>
           </Link>
         </div>
+
       </div>
     </header>
   );
