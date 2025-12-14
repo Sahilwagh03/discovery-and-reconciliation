@@ -2,6 +2,9 @@ import { LoginForm } from "@/components/login-form";
 import Logo from "@/components/logo";
 import { AnimatedBeamMultiple } from "@/components/login-page-animated-flow";
 import { Highlighter } from "@/components/ui/highlighter";
+import { FadeSequence } from "@/components/fade-sequence";
+import NetworkBlockAnimation from "@/components/network-block-animation";
+import { FeatureBlock } from "@/components/feature-block";
 
 export default function LoginPage() {
   return (
@@ -22,19 +25,15 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <div className="bg-muted/60 dark:bg-muted/40 relative hidden lg:flex flex-col justify-center backdrop-blur-3xl">
+      <div className="bg-muted/60 dark:bg-muted/40 w-full h-full relative hidden lg:flex flex-col justify-center backdrop-blur-3xl">
         <div className="absolute left-0 top-0 h-full w-0.5 bg-[linear-gradient(180deg,#ffaa40,#9c40ff)] rounded-r-lg" />
-        
-        <div className="text-center relative z-10 px-6">
-          <h2 className="text-4xl font-bold tracking-tight">
-             <Highlighter iterations={3} action="underline" color="#9c40ff">AI Powered</Highlighter> – Network 360 AI
-          </h2>
-          <p className="text-sm text-muted-foreground mt-2">
-            Intelligent Discovery & Reconciliation Engine
-          </p>
-        </div>
-
-        <AnimatedBeamMultiple />
+        <FadeSequence
+          interval={3500}
+          items={[
+            <NetworkBlockAnimation key="network" />,
+            <FeatureBlock key="feature"/>
+          ]}
+        />
       </div>
     </div>
   );
