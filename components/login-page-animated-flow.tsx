@@ -16,8 +16,8 @@ const Box = forwardRef<
     <div
       ref={ref}
       className={cn(
-        "relative z-10 flex size-20 items-center justify-center rounded-xl",
-        "backdrop-blur-xl bg-background/70 dark:bg-zinc-900/60",
+        "relative z-10 flex size-16 items-center justify-center rounded-xl",
+        "backdrop-blur-xl bg-background dark:bg-zinc-900",
         "border border-border/40 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.25)]",
         "transition-all duration-300",
         className
@@ -59,7 +59,10 @@ export function AnimatedBeamMultiple({ className }: { className?: string }) {
           </Box>
         </div>
         <div className="flex flex-col justify-center">
-          <Box ref={div4Ref} className="size-20">
+          <Box
+            ref={div4Ref}
+            className="size-20"
+          >
             <DiscrepancyIcon className="fill-black dark:fill-white size-8" />
           </Box>
         </div>

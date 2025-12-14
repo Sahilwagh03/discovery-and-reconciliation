@@ -1,6 +1,7 @@
 import { LoginForm } from "@/components/login-form";
 import Logo from "@/components/logo";
 import { AnimatedBeamMultiple } from "@/components/login-page-animated-flow";
+import { Highlighter } from "@/components/ui/highlighter";
 
 export default function LoginPage() {
   return (
@@ -21,21 +22,14 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Right Panel with Gradient Left Border */}
-      <div className="relative hidden lg:flex flex-col justify-center">
-        {/* Gradient Left Border */}
+      <div className="bg-muted/60 dark:bg-muted/40 relative hidden lg:flex flex-col justify-center backdrop-blur-3xl">
         <div className="absolute left-0 top-0 h-full w-0.5 bg-[linear-gradient(180deg,#ffaa40,#9c40ff)] rounded-r-lg" />
-
-        {/* Animated Background Blobs */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-30 blur-3xl">
-          <div className="size-64 rounded-full bg-purple-500/40 dark:bg-purple-400/60" />
-        </div>
-        {/* Text Content */}
+        
         <div className="text-center relative z-10 px-6">
-          <h2 className="text-5xl font-bold tracking-tight">
-            AI Powered – Network 360 AI
+          <h2 className="text-4xl font-bold tracking-tight">
+             <Highlighter iterations={3} action="underline" color="#9c40ff">AI Powered</Highlighter> – Network 360 AI
           </h2>
-          <p className="text-lg text-muted-foreground mt-2">
+          <p className="text-sm text-muted-foreground mt-2">
             Intelligent Discovery & Reconciliation Engine
           </p>
         </div>
