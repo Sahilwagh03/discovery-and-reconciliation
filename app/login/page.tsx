@@ -28,7 +28,7 @@ export default function LoginPage() {
       <div className="bg-muted/60 dark:bg-muted/40 w-full h-full relative hidden lg:flex flex-col justify-center backdrop-blur-3xl">
         <div className="absolute left-0 top-0 h-full w-0.5 bg-[linear-gradient(180deg,#ffaa40,#9c40ff)] rounded-r-lg" />
         <FadeSequence
-          interval={3500}
+          interval={4000}
           items={[
             <NetworkBlockAnimation key="network" />,
             <FeatureBlock key="feature"/>

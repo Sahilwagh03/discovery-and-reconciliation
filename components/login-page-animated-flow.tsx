@@ -47,7 +47,7 @@ export function AnimatedBeamMultiple({ className }: { className?: string }) {
       ref={containerRef}
     >
       <div className="relative flex size-full max-w-2xl flex-row items-center justify-between gap-16">
-        <div className="flex flex-col justify-center gap-16">
+        <div className="flex flex-col justify-center gap-20">
           <Box ref={div1Ref}>
             <InventoryIcon className="fill-black dark:fill-white size-8" />
           </Box>
