@@ -17,8 +17,8 @@ const Box = forwardRef<
       ref={ref}
       className={cn(
         "relative z-10 flex size-16 items-center justify-center rounded-xl",
-        "backdrop-blur-xl bg-background dark:bg-zinc-900",
-        "border border-border/40 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.25)]",
+        "backdrop-blur-xl bg-background dark:bg-background/80",
+        "border shadow-[0_8px_40px_-12px_rgba(0,0,0,0.25)]",
         "transition-all duration-300",
         className
       )}

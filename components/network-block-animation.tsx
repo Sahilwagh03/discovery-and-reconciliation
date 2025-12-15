@@ -6,7 +6,7 @@ const NetworkBlockAnimation = () => {
     <>
       <div className="text-center relative z-10 px-6">
         <h2 className="text-4xl font-bold tracking-tight">
-          <Highlighter iterations={3} action="underline" color="#9c40ff">
+          <Highlighter iterations={2} isView action="underline" color="#9c40ff">
             AI Powered
           </Highlighter>{" "}
           – Network 360 AI
