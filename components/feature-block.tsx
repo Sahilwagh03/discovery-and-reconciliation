@@ -32,10 +32,9 @@ export function FeatureBlock() {
     <>
       <div className="text-center relative z-10 px-6">
         <h2 className="text-4xl font-bold tracking-tight">
-          <Highlighter iterations={3} padding={10} isView action="circle" color="#ffaa40">
             Features
-          </Highlighter>{" "}
-          That Matter
+            That{" "}
+            <Highlighter iterations={2} padding={10} isView action="highlight" color="#ffaa40">Matter</Highlighter>
         </h2>
         <p className="text-sm text-muted-foreground mt-2">
          Reliable, efficient, and secure for modern network management.
